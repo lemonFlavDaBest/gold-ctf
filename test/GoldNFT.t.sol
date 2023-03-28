@@ -18,8 +18,10 @@ contract Hack is Test {
 
     function test_Attack() public {
         vm.startPrank(hacker);
-        bytes memory code = vm.getDeployedCode("GoldNFT.sol:nft");
-        console.logBytes(code);
+        bytes memory codeG = vm.getDeployedCode("GoldNFT.sol:GoldNFT.0.8.7");
+        //bytes memory codeP = vm.getDeployedCode("GoldNFT.sol:IPassManager.0.8.7");
+        console.logBytes(codeG);
+        //console.logBytes(codeP);
         // solution
         assertEq(nft.balanceOf(hacker), 10);
     }
