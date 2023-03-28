@@ -3,6 +3,7 @@ pragma solidity 0.8.7;
 
 import "forge-std/Test.sol";
 import "../src/GoldNFT.sol";
+import "../src/HackGoldNft.sol";
 
 contract Hack is Test {
     GoldNFT nft;
@@ -17,6 +18,8 @@ contract Hack is Test {
 
     function test_Attack() public {
         vm.startPrank(hacker);
+        bytes memory code = vm.getDeployedCode("GoldNFT.sol:nft");
+        console.logBytes(code);
         // solution
         assertEq(nft.balanceOf(hacker), 10);
     }
