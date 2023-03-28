@@ -3,5 +3,6 @@ src = 'src'
 out = 'out'
 libs = ['lib']
 fs_permissions = [{ access = "read", path = "./out"}]
+goerli = '${GOERLI_RPC_URL}'
 
 # See more config options https://github.com/foundry-rs/foundry/tree/master/config
