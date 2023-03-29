@@ -2,6 +2,7 @@
 pragma solidity ^0.8.0;
 
 import {ERC721} from "lib/openzeppelin-contracts/contracts/token/ERC721/ERC721.sol";
+import "forge-std/console.sol";
 
 interface IPassManager {
     function read(bytes32) external returns (bool);
@@ -12,6 +13,7 @@ contract GoldNFT is ERC721("GoldNFT", "GoldNFT") {
     bool minted;
 
     function takeONEnft(bytes32 password) external {
+        console.log("takeONEnft checkpoint");
         require(
             IPassManager(0xe43029d90B47Dd47611BAd91f24F87Bc9a03AEC2).read(
                 password

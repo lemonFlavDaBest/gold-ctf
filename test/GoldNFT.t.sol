@@ -4,6 +4,8 @@ pragma solidity 0.8.7;
 import "forge-std/Test.sol";
 import "../src/GoldNFT.sol";
 import "../src/HackGoldNft.sol";
+import "forge-std/console.sol";
+import "forge-std/console2.sol";
 
 contract Hack is Test {
     GoldNFT nft;
@@ -22,6 +24,9 @@ contract Hack is Test {
             nft.takeONEnft(0x23ee4bc3b6ce4736bb2c0004c972ddcbe5c9795964cdd6351dadba79a295f5fe);
         }*/
         nftHack = new HackGoldNft(address(nft));
+        nftHack.initializeReent();
+        nftHack.withdrawNFTs();
+        
         //console.logBytes(codeP);
         // solution
         assertEq(nft.balanceOf(hacker), 10);
